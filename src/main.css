@@ -1,14 +1,17 @@
 html, body {
     margin: 0;
-    background-color: #efefef;
+    background-color: #08937e;
     font-family: sans-serif;
+}
+a{
+    color:white;
 }
 .wrapper {
     width: 500px;
-    height: 640px;
+    height: 590px;
     padding: 5px;
     margin: 0 auto;
-    background-color: #ddd;
+    background-color: #b22929;
 }
 #loginWrapper {
     position: fixed;
@@ -26,12 +29,14 @@ html, body {
     display: none;
 }
 .banner {
-    height: 80px;
+    height: 110px;
     width: 100%;
+    color: #fff2e3;
+    text-align: center;
 }
+
 .banner p {
-    float: left;
-    display: inline-block;
+    font-size: 20px;
 }
 .controls {
     height: 100px;
@@ -39,7 +44,7 @@ html, body {
     position: relative;
 }
 #historyMsg {
-    height: 400px;
+    height: 300px;
     background-color: #fff;
     overflow: auto;
     padding: 2px;
@@ -103,7 +108,4 @@ html, body {
 }
 .emoji{
     display: inline;
-}
-footer {
-    text-align: center;
 }

@@ -43,18 +43,19 @@ Chatroom.prototype={
             document.getElementById('status').textCount=userCount+(userCount>1?'users':'user')+'online';
         });
 
-        this.socket.on('newMsg',function(user,msg){
-            _this._displayNewMsg(user,msg);
-        })
+        this.socket.on('newMsg',function(user,msg,color){
+            _this._displayNewMsg(user,msg,color);
+        });
 
         document.getElementById('sendBtn').addEventListener('click',function(){//发送聊天
             var messageInput=document.getElementById('messageInput'),
                 msg=messageInput.value;
+                color=document.getElementById('colorStyle').value;//获取颜色值
             messageInput.value='';
             messageInput.focus();
             if(msg.trim().length!=0){
-                _this.socket.emit('postMsg',msg);//给服务器的
-                _this._displayNewMsg('me',msg);//给自己的
+                _this.socket.emit('postMsg',msg,color);//给服务器的
+                _this._displayNewMsg('me',msg,color);//给自己的
             };
         },false);
 
@@ -76,8 +77,8 @@ Chatroom.prototype={
             };
         },false);
 
-        this.socket.on('newImg',function(user,img){//接收显示图片
-            _this._displayImage(user,img);
+        this.socket.on('newImg',function(user,img,color){//接收显示图片
+            _this._displayImage(user,img,color);
         });
 
         this._initialEmoji();//点击按键显示表情选择框
@@ -101,7 +102,26 @@ Chatroom.prototype={
                 messageInput.value=messageInput.value+'[emoji:'+target.title+']';
             };
         },false);
-     },
+
+        document.getElementById('nicknameInput').addEventListener('keyup',function(e){//回车可以登录
+            if(e.keyCode==13){
+                var nickName=document.getElementById('nicknameInput').value;
+                if(nickName.trim().length!=0){
+                    _this.socket.emit('login',nickName);
+                };
+            };
+        },false);
+        document.getElementById('messageInput').addEventListener('keyup',function(e){//回车可以发信息
+            var messageInput=document.getElementById('messageInput'),
+            msg=messageInput.value;
+            color=document.getElementById('colorStyle').value;
+        if(e.keyCode==13&&msg.trim().length!=0){
+            messageInput.value='';
+            _this.socket.emit('postMsg',msg,color);
+            _this._displayNewMsg('me',msg,color);
+        };
+       },false);
+     },//init
 
     _displayNewMsg:function(user,msg,color){ //显示信息函数
         var container=document.getElementById('historyMsg'),

@@ -32,8 +32,8 @@ io.on('connection',function(socket){
         socket.broadcast.emit('system',socket.nickname,users.length,'logout');
     });
 
-    socket.on('postMsg',function(msg){//接收发送聊天
-        socket.broadcast.emit('newMsg',socket.nickname,msg);
+    socket.on('postMsg',function(msg,color){//接收发送聊天
+        socket.broadcast.emit('newMsg',socket.nickname,msg,color);
     });
 
     socket.on('img',function(imgData){

@@ -70,14 +70,14 @@ Chatroom.prototype={
                 reader.onload=function(e){//读取成功，显示到页面并发送到服务器
                   this.value='';
                   _this.socket.emit('img',e.target.result);
-                  _this._displayNewMsg('me',e.target.result);
+                  _this._displayImage('me',e.target.result);
                 };
                 reader.readAsDataURL(file);
             };
         },false);
 
         this.socket.on('newImg',function(user,img){//接收显示图片
-            _this._displayNewMsg(user,img);
+            _this._displayImage(user,img);
         });
     },
 
@@ -92,14 +92,13 @@ Chatroom.prototype={
         container.scrollTop=container.scrollHeight;
     },
 
-    _displayImage:function(user,imgData,color){//显示图片函数
-        var container=document.getElementById('historyMsg'),
-        msgToDisplay=document.createElement('p'),
-        data=new Date().toTimeString().substr(0,8);
-    
-        msgToDisplay.style.color=color||'#000';
-        msgToDisplay.innerHTML=user+'<span class="timespan">('+data+'):</span><br>'+'<a href="'+imgData+'"target="_blank"><img src="'+imgDta+'"/></a>';
+    _displayImage: function(user, imgData, color) {
+        var container = document.getElementById('historyMsg'),
+            msgToDisplay = document.createElement('p'),
+            date = new Date().toTimeString().substr(0, 8);
+        msgToDisplay.style.color = color || '#000';
+        msgToDisplay.innerHTML = user + '<span class="timespan">(' + date + '): </span> <br/>' + '<a href="' + imgData + '" target="_blank"><img src="' + imgData + '"/></a>';
         container.appendChild(msgToDisplay);
-        container.scrollTop=container.scrollHeight;
+        container.scrollTop = container.scrollHeight;
     }
 };

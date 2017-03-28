@@ -121,6 +121,10 @@ Chatroom.prototype={
             _this._displayNewMsg('me',msg,color);
         };
        },false);
+
+       document.getElementById('clearBtn').addEventListener('click', function() {//清除屏幕
+            document.getElementById('historyMsg').innerHTML = '';
+        }, false);
      },//init
 
     _displayNewMsg:function(user,msg,color){ //显示信息函数

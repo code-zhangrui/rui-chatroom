@@ -6,7 +6,7 @@ var express=require('express'),
     users=[]; //在线用户
 
 app.use('/',express.static(__dirname+'/src'));
-server.listen(3000);
+server.listen(4000);
 
 //连接了以后干什么
 //socket表示的是当前连接到服务器的那个客户端

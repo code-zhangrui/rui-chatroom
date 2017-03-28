@@ -7,11 +7,12 @@ a{
     color:white;
 }
 .wrapper {
-    width: 400px;
-    height: 590px;
+    width: 350px;
+    height: 500px;
     padding: 5px;
-    margin: 0 auto;
+    margin: 20px auto;
     background-color: #b22929;
+    border-radius:5px;
 }
 #loginWrapper {
     position: fixed;
@@ -44,10 +45,11 @@ a{
     position: relative;
 }
 #historyMsg {
-    height: 300px;
+    height: 230px;
     background-color: #fff;
     overflow: auto;
     padding: 2px;
+    border-radius: 5px;
 }
 #historyMsg img {
     max-width: 99%;/*最多只能以聊天窗口的99%宽度来显示，这样过大的图片就会自己缩小*/
@@ -78,15 +80,20 @@ a{
 /*end custom file input*/
 
 #messageInput {
-    width: 335px;
+    width: 270px;
     max-width: 440px;
     height: 90px;
     max-height: 90px;
+    border-radius: 3px;
     float:left;
 }
 #sendBtn {
-    width: 50px;
+    width: 70px;
     height: 96px;
+    border-radius: 5px;
+    background: #fff2e3;
+    color:red;
+    font-size:16px;
     float: right;
 }
 #emojiWrapper {

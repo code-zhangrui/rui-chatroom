@@ -35,6 +35,10 @@ io.on('connection',function(socket){
     socket.on('postMsg',function(msg){//接收发送聊天
         socket.broadcast.emit('newMsg',socket.nickname,msg);
     });
+
+    socket.on('img',function(imgData){
+        socket.broadcast.emit('newImg',socket.nickname,imgData);
+    });
 });
 
 

@@ -57,6 +57,28 @@ Chatroom.prototype={
                 _this._displayNewMsg('me',msg);//给自己的
             };
         },false);
+
+        document.getElementById('sendImage').addEventListener('change',function(){//发送图片
+            if(this.files.length!=0){//检查是否有文件被选中
+                var file=this.files[0],//获取文件并用FileReader进行读取
+                    reader=new FileReader();
+                if(!reader){
+                    _this._displayNewMsg('system','你的浏览器不支持FileReader','red');
+                    this.value='';
+                    return;
+                };
+                reader.onload=function(e){//读取成功，显示到页面并发送到服务器
+                  this.value='';
+                  _this.socket.emit('img',e.target.result);
+                  _this._displayNewMsg('me',e.target.result);
+                };
+                reader.readAsDataURL(file);
+            };
+        },false);
+
+        this.socket.on('newImg',function(user,img){//接收显示图片
+            _this._displayNewMsg(user,img);
+        });
     },
 
     _displayNewMsg:function(user,msg,color){ //显示信息函数
@@ -66,6 +88,17 @@ Chatroom.prototype={
 
         msgToDisplay.style.color=color||'#000';
         msgToDisplay.innerHTML=user+'<span class="timespan">('+data+'):</span>'+msg;
+        container.appendChild(msgToDisplay);
+        container.scrollTop=container.scrollHeight;
+    },
+
+    _displayImage:function(user,imgData,color){//显示图片函数
+        var container=document.getElementById('historyMsg'),
+        msgToDisplay=document.createElement('p'),
+        data=new Date().toTimeString().substr(0,8);
+    
+        msgToDisplay.style.color=color||'#000';
+        msgToDisplay.innerHTML=user+'<span class="timespan">('+data+'):</span><br>'+'<a href="'+imgData+'"target="_blank"><img src="'+imgDta+'"/></a>';
         container.appendChild(msgToDisplay);
         container.scrollTop=container.scrollHeight;
     }

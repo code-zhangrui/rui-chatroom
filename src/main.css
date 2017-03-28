@@ -7,7 +7,7 @@ a{
     color:white;
 }
 .wrapper {
-    width: 500px;
+    width: 400px;
     height: 590px;
     padding: 5px;
     margin: 0 auto;
@@ -50,7 +50,7 @@ a{
     padding: 2px;
 }
 #historyMsg img {
-    max-width: 99%;
+    max-width: 99%;/*最多只能以聊天窗口的99%宽度来显示，这样过大的图片就会自己缩小*/
 }
 .timespan {
     color: #ddd;
@@ -78,7 +78,7 @@ a{
 /*end custom file input*/
 
 #messageInput {
-    width: 440px;
+    width: 335px;
     max-width: 440px;
     height: 90px;
     max-height: 90px;

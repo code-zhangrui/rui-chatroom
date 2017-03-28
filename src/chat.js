@@ -13,7 +13,7 @@ Chatroom.prototype={
         this.socket=io.connect();//建立连接
 
         this.socket.on('connect',function(){//连接以后干啥
-            document.getElementById('info').textContent= 'get yourself a nickname :)';
+            document.getElementById('info').textContent= '选择你的昵称';
             document.getElementById('nickWrapper').style.display = 'block';
             document.getElementById('nicknameInput').focus();
         });
@@ -79,20 +79,42 @@ Chatroom.prototype={
         this.socket.on('newImg',function(user,img){//接收显示图片
             _this._displayImage(user,img);
         });
-    },
+
+        this._initialEmoji();//点击按键显示表情选择框
+          document.getElementById('emoji').addEventListener('click', function(e) {
+          var emojiwrapper = document.getElementById('emojiWrapper');
+          emojiwrapper.style.display = 'block';
+          e.stopPropagation();
+        }, false);
+          document.body.addEventListener('click', function(e) {//点击别处隐藏表情选择框
+          var emojiwrapper = document.getElementById('emojiWrapper');
+          if (e.target != emojiwrapper) {
+          emojiwrapper.style.display = 'none';
+          };
+        });
+
+        document.getElementById('emojiWrapper').addEventListener('click',function(e){//获取被点击的表情
+            var target=e.target;
+            if(target.nodeName.toLowerCase()=='img'){
+                var messageInput=document.getElementById('messageInput');
+                messageInput.focus();
+                messageInput.value=messageInput.value+'[emoji:'+target.title+']';
+            };
+        },false);
+     },
 
     _displayNewMsg:function(user,msg,color){ //显示信息函数
         var container=document.getElementById('historyMsg'),
             msgToDisplay=document.createElement('p'),
             data=new Date().toTimeString().substr(0,8);
-
+            msg=this._showEmoji(msg);//将表情代码转化为图片
         msgToDisplay.style.color=color||'#000';
         msgToDisplay.innerHTML=user+'<span class="timespan">('+data+'):</span>'+msg;
         container.appendChild(msgToDisplay);
         container.scrollTop=container.scrollHeight;
     },
 
-    _displayImage: function(user, imgData, color) {
+    _displayImage: function(user, imgData, color) {//显示图片函数
         var container = document.getElementById('historyMsg'),
             msgToDisplay = document.createElement('p'),
             date = new Date().toTimeString().substr(0, 8);
@@ -100,5 +122,33 @@ Chatroom.prototype={
         msgToDisplay.innerHTML = user + '<span class="timespan">(' + date + '): </span> <br/>' + '<a href="' + imgData + '" target="_blank"><img src="' + imgData + '"/></a>';
         container.appendChild(msgToDisplay);
         container.scrollTop = container.scrollHeight;
+    },
+
+    _initialEmoji: function() {//显示表情函数
+           var emojiContainer = document.getElementById('emojiWrapper'),
+               docFragment = document.createDocumentFragment();
+           for (var i = 69; i > 0; i--) {
+               var emojiItem = document.createElement('img');
+               emojiItem.src = 'emoji/' + i + '.gif';
+               emojiItem.title = i;
+               docFragment.appendChild(emojiItem);
+           };
+           emojiContainer.appendChild(docFragment);
+    },
+
+    _showEmoji:function(msg){//正则判断有没有表情
+        var match,result=msg,
+            reg=/\[emoji:\d+\]/g,
+            emojiIndex,
+            totalEmojiNum=document.getElementById('emojiWrapper').children.length;
+        while(match=reg.exec(msg)){
+            emojiIndex=match[0].slice(7,-1);
+            if(emojiIndex>totalEmojiNum){
+                result=result.replace(match[0],'[x]');
+            }else{
+                result=result.replace(match[0],'<img class="emoji" src="emoji/'+emojiIndex+'.gif" />');
+            };
+        };
+        return result;
     }
 };

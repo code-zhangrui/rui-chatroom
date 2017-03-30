@@ -39,7 +39,7 @@ Chatroom.prototype={
 
         this.socket.on('system',function(nickName, userCount, type){//判断system信息的类别
             var msg=nickName+(type=='login'?'加入':'离开');
-            _this._displayNewMsg('system',msg,'red');
+            _this._displayNewMsg('【系统】',msg,'red');
             document.getElementById('status').textCount=userCount+(userCount>1?'users':'user')+'online';
         });
 
@@ -125,8 +125,34 @@ Chatroom.prototype={
        document.getElementById('clearBtn').addEventListener('click', function() {//清除屏幕
             document.getElementById('historyMsg').innerHTML = '';
         }, false);
-     },//init
 
+       document.getElementById('showUsers').addEventListener('click', function() {//++点击请求访客名单
+         _this.socket.emit('askUsers');
+        }, false);
+
+       this.socket.on('showUsers',function(users){//++接收访客名单
+          _this._displayUsersList(users);//++输出访客名单
+      });
+
+    //   document.getElementById('rename').addEventListener('click', function() {//++点击请求改名
+    //      _this.socket.emit('askRename');
+    //     }, false);
+
+    //    this.socket.on('rename',function(users){//++改名
+    //       _this._displayUsersList(users);//++发起改名通知
+    //   });
+
+    },//init
+    _displayUsersList:function(users,color){//++输出访客名单函数
+        var container=document.getElementById('historyMsg'),
+            msgToDisplay=document.createElement('p'),
+            data=new Date().toTimeString().substr(0,8);
+        msgToDisplay.style.color=color||'red';
+        msgToDisplay.innerHTML='【系统】'+'<span class="timespan">('+data+'):</span>'+'当前在线成员有：'+users+' 等共'+users.length+'人';
+        container.appendChild(msgToDisplay);
+        container.scrollTop=container.scrollHeight;
+   
+    },
     _displayNewMsg:function(user,msg,color){ //显示信息函数
         var container=document.getElementById('historyMsg'),
             msgToDisplay=document.createElement('p'),

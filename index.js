@@ -26,7 +26,6 @@ io.on('connection',function(socket){
             io.sockets.emit('system',nickname,users.length,'login');//向所有连接到服务器的客户端发送当前登陆用户的昵称 
         };
     });
-
     socket.on('disconnect',function(){//断开事件
         users.splice(socket.userIndex,1);
         socket.broadcast.emit('system',socket.nickname,users.length,'logout');
@@ -36,9 +35,17 @@ io.on('connection',function(socket){
         socket.broadcast.emit('newMsg',socket.nickname,msg,color);
     });
 
-    socket.on('img',function(imgData){
+    socket.on('img',function(imgData){//接收发送图片
         socket.broadcast.emit('newImg',socket.nickname,imgData);
     });
+
+    socket.on('askUsers',function(){//++接收访客名单请求
+        socket.emit('showUsers',users);//++输出访客名单
+    });
+
+    // socket.on('askRename',function(){//++接收改名请求
+    //     socket.emit('rename',users);//++
+    // });
 });
 
 

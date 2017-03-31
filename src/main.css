@@ -8,7 +8,7 @@ a{
 }
 .wrapper {
     width: 350px;
-    height: 500px;
+    height: 530px;
     padding: 5px;
     margin: 20px auto;
     background-color: #b22929;
@@ -58,7 +58,7 @@ a{
     color: #ddd;
 }
 .items {
-    height: 30px;
+    height: 60px;
 }
 #colorStyle {
     width: 50px;
@@ -115,4 +115,7 @@ a{
 }
 .emoji{
     display: inline;
+}
+input{
+    margin-bottom:5px;
 }

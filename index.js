@@ -43,9 +43,18 @@ io.on('connection',function(socket){
         socket.emit('showUsers',users);//++输出访客名单
     });
 
-    // socket.on('askRename',function(){//++接收改名请求
-    //     socket.emit('rename',users);//++
-    // });
+    socket.on('askRename',function(newName){//++接收改名请求
+           if(users.indexOf(newName)>-1){
+              socket.emit('renameFail',newName);
+           }else{
+              var oldName=users[socket.userIndex];//获取原名
+              users.splice(socket.userIndex,1);//删掉原名
+              socket.userIndex=users.length; //因为是数组最后一个元素，所以索引就是数组的长度users.length
+              socket.nickname=newName;
+              users.push(newName);
+              io.sockets.emit('rename',oldName,newName);//向所有连接到服务器的客户端发送当前登陆用户的昵称 
+           };    
+    });
 });
 
 

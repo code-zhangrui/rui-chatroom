@@ -55,25 +55,25 @@ Chatroom.prototype={
             messageInput.focus();
             if(msg.trim().length!=0){
                 _this.socket.emit('postMsg',msg,color);//给服务器的
-                _this._displayNewMsg('me',msg,color);//给自己的
+                _this._displayNewMsg('你说',msg,color);//给自己的
             };
         },false);
 
-        document.getElementById('sendImage').addEventListener('change',function(){//发送图片
+        document.getElementById('sendImage').addEventListener('change',function(){//发送图片//change事件会在input标签内容改变时发生
             if(this.files.length!=0){//检查是否有文件被选中
                 var file=this.files[0],//获取文件并用FileReader进行读取
-                    reader=new FileReader();
+                    reader=new FileReader();//FileReader是HTML 5的一个新接口，提供了一个异步API
                 if(!reader){
                     _this._displayNewMsg('system','你的浏览器不支持FileReader','red');
                     this.value='';
                     return;
                 };
-                reader.onload=function(e){//读取成功，显示到页面并发送到服务器
+                reader.onload=function(e){//onload事件是成功读取
                   this.value='';
-                  _this.socket.emit('img',e.target.result);
-                  _this._displayImage('me',e.target.result);
+                  _this.socket.emit('img',e.target.result);//FileReader读取的结果储存在result里
+                  _this._displayImage('你说',e.target.result);
                 };
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(file);//将文件读取为DataURL
             };
         },false);
 
@@ -118,7 +118,7 @@ Chatroom.prototype={
         if(e.keyCode==13&&msg.trim().length!=0){
             messageInput.value='';
             _this.socket.emit('postMsg',msg,color);
-            _this._displayNewMsg('me',msg,color);
+            _this._displayNewMsg('你说',msg,color);
         };
        },false);
 
@@ -131,35 +131,38 @@ Chatroom.prototype={
         }, false);
 
        this.socket.on('showUsers',function(users){//++接收访客名单
-          _this._displayUsersList(users);//++输出访客名单
+           msg='当前在线成员有：'+users+' 等共'+users.length+'人';
+          _this._displayNewMsg('【系统】',msg,'red');//++输出访客名单
+      });
+      
+      document.getElementById('rename').addEventListener('click',function(){//++点击请求改名
+            var newName=document.getElementById('newNameInput').value;
+            if(newName.trim().length!=0){
+                _this.socket.emit('askRename',newName);
+            }else{
+                document.getElementById('newNameInput').focus();
+            };
+        },false);
+
+       this.socket.on('renameFail',function(newName){//改名失败
+           msg='"'+newName+'"这个名字已被占用，请再想一个吧！';
+            _this._displayNewMsg('【系统】',msg,'red');//++改名失败通知
+        });
+
+       this.socket.on('rename',function(oldName,newName){//++改名成功
+          msg=oldName+'已改名为：'+newName;
+          _this._displayNewMsg('【系统】',msg,'red');//++发起改名通知
       });
 
-    //   document.getElementById('rename').addEventListener('click', function() {//++点击请求改名
-    //      _this.socket.emit('askRename');
-    //     }, false);
-
-    //    this.socket.on('rename',function(users){//++改名
-    //       _this._displayUsersList(users);//++发起改名通知
-    //   });
-
     },//init
-    _displayUsersList:function(users,color){//++输出访客名单函数
-        var container=document.getElementById('historyMsg'),
-            msgToDisplay=document.createElement('p'),
-            data=new Date().toTimeString().substr(0,8);
-        msgToDisplay.style.color=color||'red';
-        msgToDisplay.innerHTML='【系统】'+'<span class="timespan">('+data+'):</span>'+'当前在线成员有：'+users+' 等共'+users.length+'人';
-        container.appendChild(msgToDisplay);
-        container.scrollTop=container.scrollHeight;
-   
-    },
+    
     _displayNewMsg:function(user,msg,color){ //显示信息函数
         var container=document.getElementById('historyMsg'),
             msgToDisplay=document.createElement('p'),
             data=new Date().toTimeString().substr(0,8);
             msg=this._showEmoji(msg);//将表情代码转化为图片
         msgToDisplay.style.color=color||'#000';
-        msgToDisplay.innerHTML=user+'<span class="timespan">('+data+'):</span>'+msg;
+        msgToDisplay.innerHTML='<img class="emoji" src="emoji/12.gif" />'+user+'<span class="timespan">('+data+'):</span>'+msg;//加了表情
         container.appendChild(msgToDisplay);
         container.scrollTop=container.scrollHeight;
     },

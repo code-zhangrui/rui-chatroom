@@ -11,10 +11,10 @@ a{
 }
 .wrapper {
     width: 700px;
-    height: 550px;
+    height: 530px;
     padding: 10px;
     margin: 20px auto;
-    background-color: rgba(52, 61, 80,0.6);
+    background-color: rgba(52, 61, 80,0.7);
     border-radius:2px;
 }
 #loginWrapper {
@@ -141,5 +141,5 @@ input{
     height:19px;
 }
 #rename{
-    width:160px;
+    width:161px;
 }

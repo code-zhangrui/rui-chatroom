@@ -39,7 +39,7 @@ Chatroom.prototype={
 
         this.socket.on('system',function(nickName, userCount, type){//判断system信息的类别
             var msg=nickName+(type=='login'?'加入':'离开');
-            _this._displayNewMsg('【系统】',msg,'red');
+            _this._displayNewMsg('【系统】',msg,'#dd78e2');
             document.getElementById('status').textCount=userCount+(userCount>1?'users':'user')+'online';
         });
 
@@ -132,7 +132,7 @@ Chatroom.prototype={
 
        this.socket.on('showUsers',function(users){//++接收访客名单
            msg='当前在线成员有：'+users+' 等共'+users.length+'人';
-          _this._displayNewMsg('【系统】',msg,'red');//++输出访客名单
+          _this._displayNewMsg('【系统】',msg,'#dd78e2');//++输出访客名单
       });
       
       document.getElementById('rename').addEventListener('click',function(){//++点击请求改名
@@ -146,12 +146,12 @@ Chatroom.prototype={
 
        this.socket.on('renameFail',function(newName){//改名失败
            msg='"'+newName+'"这个名字已被占用，请再想一个吧！';
-            _this._displayNewMsg('【系统】',msg,'red');//++改名失败通知
+            _this._displayNewMsg('【系统】',msg,'#dd78e2');//++改名失败通知
         });
 
        this.socket.on('rename',function(oldName,newName){//++改名成功
           msg=oldName+'已改名为：'+newName;
-          _this._displayNewMsg('【系统】',msg,'red');//++发起改名通知
+          _this._displayNewMsg('【系统】',msg,'#dd78e2');//++发起改名通知
       });
 
     },//init

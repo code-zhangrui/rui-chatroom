@@ -1,18 +1,18 @@
 html, body {
     margin: 0;
-    background-color: #08937e;
-    font-family: sans-serif;
-}
+    background-color: #75c3ff;
+    font-family: "Microsoft YaHei";
+    }
 a{
     color:white;
 }
 .wrapper {
-    width: 350px;
-    height: 530px;
-    padding: 5px;
+    width: 700px;
+    height: 550px;
+    padding: 10px;
     margin: 20px auto;
-    background-color: #b22929;
-    border-radius:5px;
+    background-color: #343d50;
+    border-radius:2px;
 }
 #loginWrapper {
     position: fixed;
@@ -46,10 +46,10 @@ a{
 }
 #historyMsg {
     height: 230px;
-    background-color: #fff;
+    background-color: white;
     overflow: auto;
     padding: 2px;
-    border-radius: 5px;
+    border-radius: 2px;
 }
 #historyMsg img {
     max-width: 99%;/*最多只能以聊天窗口的99%宽度来显示，这样过大的图片就会自己缩小*/
@@ -80,20 +80,20 @@ a{
 /*end custom file input*/
 
 #messageInput {
-    width: 270px;
-    max-width: 440px;
+    width: 600px;
     height: 90px;
     max-height: 90px;
-    border-radius: 3px;
+    border-radius: 2px;
     float:left;
 }
 #sendBtn {
-    width: 70px;
+    width: 80px;
     height: 96px;
-    border-radius: 5px;
+    border-radius: 2px;
     background: #fff2e3;
-    color:red;
+    color:#343d50;
     font-size:16px;
+    font-weight:bold;
     float: right;
 }
 #emojiWrapper {
@@ -117,5 +117,26 @@ a{
     display: inline;
 }
 input{
+    height:20px;
+    min-width:80px;
     margin-bottom:5px;
+    background:#fff2e3;
+    color:black;
+    border:none;
+    border-radius:2px;
+}
+#clearBtn{
+    float:right;
+    width:80px;
+    height:50px;
+    color:#343d50;
+    font-weight:bold;
+    font-size:16px;
+    margin-top:2px;
+}
+#newNameInput{
+    height:19px;
+}
+#rename{
+    width:160px;
 }
